@@ -24,12 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en">   
       <body>
-         <body className="pt-20">
+        <div className="pt-20">
           <Header />
           <main>{children}</main>
-      </body>
+        </div>     
       </body>
     </html>
   );
