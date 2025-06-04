@@ -28,6 +28,10 @@ export default function PostDetail() {
     router.push('/posts');
   };
 
+  const handleBack = () => {
+    router.push('/posts');
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,19 +68,27 @@ export default function PostDetail() {
   return (
     <div className='max-w-2xl mx-auto p-4'>
       <PostDetailItem post={post} user={user} comments={comments} />
-      <div className='flex p-4 justify-end'>
-        <Link
-          href={`/posts/${id}/edit`}
-          className='bg-blue-600 text-white text-md px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition-all duration-300 mr-4'
-        >
-          수정
-        </Link>
+      <div className='flex p-4 justify-between'>
         <button
-          onClick={handleDelete}
-          className='bg-slate-400 text-white text-md px-4 py-2 rounded cursor-pointer hover:bg-slate-500 transition-all duration-300'
+          onClick={handleBack}
+          className='text-blue-600 hover:underline font-medium'
         >
-          삭제
+          목록으로 가기
         </button>
+        <div className='flex gap-2'>
+          <Link
+            href={`/posts/${id}/edit`}
+            className='bg-blue-600 text-white text-md px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition-all duration-300'
+          >
+            수정
+          </Link>
+          <button
+            onClick={handleDelete}
+            className='bg-slate-400 text-white text-md px-4 py-2 rounded cursor-pointer hover:bg-slate-500 transition-all duration-300'
+          >
+            삭제
+          </button>
+        </div>
       </div>
     </div>
   );
