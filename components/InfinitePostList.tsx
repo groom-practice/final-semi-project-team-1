@@ -25,7 +25,9 @@ export default function InfinitePostList() {
       const filteredPosts = newPosts.filter(
         (post) => !deletedIds.includes(post.id)
       );
-      setPosts((prev) => [...prev, ...filteredPosts]);
+
+      if (pageParam === 1) setPosts(filteredPosts);
+      else setPosts((prev) => [...prev, ...filteredPosts]);
 
       if (newPosts.length < 10) setHasMore(false);
     } catch (err) {
