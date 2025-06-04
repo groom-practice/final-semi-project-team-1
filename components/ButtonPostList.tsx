@@ -4,6 +4,7 @@ import PostItem from '@/components/PostItem';
 import { Post } from '@/type/posts';
 import { getPosts } from '@/app/api/posts/route';
 import { useState, useEffect } from 'react';
+import Spinner from './Spinner';
 
 export default function ButtonPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -16,7 +17,17 @@ export default function ButtonPostList() {
     try {
       setLoading(true);
       const newPosts = await getPosts({ pageParam });
-      setPosts((prev) => [...prev, ...newPosts]);
+
+      const deletedIds = JSON.parse(
+        localStorage.getItem('deletedPosts') || '[]'
+      );
+      const filteredPosts = newPosts.filter(
+        (post) => !deletedIds.includes(post.id)
+      );
+
+      if (pageParam === 1) setPosts(filteredPosts);
+      else setPosts((prev) => [...prev, ...filteredPosts]);
+
       if (newPosts.length < 10) setHasMore(false);
     } catch (err) {
       if (err instanceof Error) setError(err.message);
@@ -43,7 +54,7 @@ export default function ButtonPostList() {
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
-      {loading && <p>로딩 중...</p>}
+      {loading && <Spinner />}
       {!loading && hasMore && (
         <button
           onClick={handleLoadMore}
