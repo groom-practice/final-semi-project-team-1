@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Post } from '@/type/posts';
 import PostItem from '@/components/PostItem';
 import { getPosts } from '@/app/api/posts/route';
+import Spinner from './Spinner';
 
 export default function InfinitePostList() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -68,7 +69,7 @@ export default function InfinitePostList() {
         <PostItem key={post.id} post={post} />
       ))}
       <div ref={loadMoreRef} className='h-6'>
-        {loading && <p>로딩 중...</p>}
+        {loading && <Spinner />}
         {!hasMore && <p>마지막 페이지다</p>}
       </div>
     </>

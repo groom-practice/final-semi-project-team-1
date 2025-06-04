@@ -4,6 +4,7 @@ import PostItem from '@/components/PostItem';
 import { Post } from '@/type/posts';
 import { getPosts } from '@/app/api/posts/route';
 import { useState, useEffect } from 'react';
+import Spinner from './Spinner';
 
 export default function ButtonPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -53,7 +54,7 @@ export default function ButtonPostList() {
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
-      {loading && <p>로딩 중...</p>}
+      {loading && <Spinner />}
       {!loading && hasMore && (
         <button
           onClick={handleLoadMore}
