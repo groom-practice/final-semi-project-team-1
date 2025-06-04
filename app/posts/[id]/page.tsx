@@ -7,7 +7,7 @@ import {
 } from '@/app/api/posts/route';
 import { useEffect, useState } from 'react';
 import { Post, User, Comment } from '@/type/posts';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Spinner from '@/components/Spinner';
 
@@ -18,6 +18,14 @@ export default function PostDetail() {
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
+  const router = useRouter();
+
+  const handleDelete = () => {
+    const deleted = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
+    const updated = [...deleted, Number(id)];
+    localStorage.setItem('deletedPosts', JSON.stringify(updated));
+    router.push('/posts');
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,7 +94,10 @@ export default function PostDetail() {
         >
           수정
         </Link>
-        <button className='bg-slate-400 text-white text-md px-4 py-2 rounded cursor-pointer hover:bg-slate-500 transition-all duration-300'>
+        <button
+          onClick={handleDelete}
+          className='bg-slate-400 text-white text-md px-4 py-2 rounded cursor-pointer hover:bg-slate-500 transition-all duration-300'
+        >
           삭제
         </button>
       </div>
