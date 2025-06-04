@@ -17,23 +17,6 @@ export default function EditPostPage() {
   const [body, setBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const data = await getPostById(Number(id));
-        setPost(data);
-        setTitle(data.title);
-        setBody(data.body);
-      } catch (err) {
-        if (err instanceof Error) console.log(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) fetchPost();
-  }, [id]);
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!post) return;
@@ -52,6 +35,28 @@ export default function EditPostPage() {
       setSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const savedPost = localStorage.getItem(`post_${id}`);
+        let postData: Post;
+
+        if (savedPost) postData = JSON.parse(savedPost);
+        else postData = await getPostById(Number(id));
+
+        setPost(postData);
+        setTitle(postData.title);
+        setBody(postData.body);
+      } catch (err) {
+        if (err instanceof Error) console.log(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchPost();
+  }, [id]);
 
   if (loading) return <Spinner />;
 
