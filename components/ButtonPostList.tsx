@@ -52,6 +52,9 @@ export default function ButtonPostList() {
           더보기
         </button>
       )}
+      {!loading && !hasMore && (
+        <p className='mt-4 text-center text-gray-500'>마지막 페이지다</p>
+      )}
     </>
   );
 }
