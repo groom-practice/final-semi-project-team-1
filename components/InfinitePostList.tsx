@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Post } from '@/type/posts';
 import PostItem from '@/components/PostItem';
-import { getPosts } from '@/api/posts';
+import { getPosts } from '@/app/api/posts/route';
 
 export default function InfinitePostList() {
   const [posts, setPosts] = useState<Post[]>([]);

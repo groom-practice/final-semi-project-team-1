@@ -2,7 +2,7 @@
 
 import PostItem from '@/components/PostItem';
 import { Post } from '@/type/posts';
-import { getPosts } from '@/api/posts';
+import { getPosts } from '@/app/api/posts/route';
 import { useState, useEffect } from 'react';
 
 export default function ButtonPostList() {
