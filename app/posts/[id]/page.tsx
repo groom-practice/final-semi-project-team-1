@@ -1,25 +1,15 @@
 'use client';
-
-import {
-  getCommentsByPostId,
-  getPostById,
-  getUserById,
-} from '@/app/api/posts/route';
-import { useEffect, useState } from 'react';
-import { Post, User, Comment } from '@/type/posts';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Spinner from '@/components/Spinner';
 import PostDetailItem from '@/components/PostDetailItem';
+import usePostItem from '@/hooks/usePostItem';
 
 export default function PostDetail() {
-  const [post, setPost] = useState<Post | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const { id } = useParams();
   const router = useRouter();
+
+  const { post, user, comments, loading } = usePostItem(id);
 
   const handleDelete = () => {
     const deleted = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
@@ -31,36 +21,6 @@ export default function PostDetail() {
   const handleBack = () => {
     router.push('/posts');
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-
-        const savedPost = localStorage.getItem(`post_${id}`);
-        let getPostIdData: Post;
-
-        if (savedPost) getPostIdData = JSON.parse(savedPost);
-        else getPostIdData = await getPostById(Number(id));
-
-        setPost(getPostIdData);
-
-        const [getUserData, getCommentsData] = await Promise.all([
-          getUserById(getPostIdData.userId),
-          getCommentsByPostId(Number(id)),
-        ]);
-
-        setUser(getUserData);
-        setComments(getCommentsData);
-      } catch (err) {
-        if (err instanceof Error) console.log(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [id]);
 
   if (loading) return <Spinner />;
   if (!post || !user) return <p>데이터를 불러올 수 없음</p>;
