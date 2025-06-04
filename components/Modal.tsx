@@ -6,7 +6,7 @@ function Modal({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className="fixed inset-0 z-1 flex items-center justify-center bg-black/70"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
       onClick={() => router.back()}
     >
       <div
