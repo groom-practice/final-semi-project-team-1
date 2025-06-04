@@ -1,8 +1,11 @@
 "use client"; 
 
 import Link from "next/link";
+import useAuthStore from "@/store/userStore";
 
 export default function Header() {
+  const {isLoggedIn, login, logout} = useAuthStore();
+
   return (
     <nav className="fixed top-0 left-0 w-screen flex justify-between bg-slate-100 px-8 py-4">
       <div className="flex gap-4">
@@ -10,8 +13,12 @@ export default function Header() {
         <Link href="/photos">Photos</Link>
         <Link href="/posts">Posts</Link>
       </div>
-      <div>
-        <Link href="/login">Login</Link>
+       <div>
+        {isLoggedIn ? (
+          <Link href="/" onClick={logout}>Logout</Link>
+        ) : (
+          <Link href="/login">Login</Link>
+        )}
       </div>
     </nav>
   );
