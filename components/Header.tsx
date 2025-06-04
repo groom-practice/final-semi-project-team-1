@@ -19,7 +19,14 @@ export default function Header() {
             Logout
           </Link>
         ) : (
-          <Link href="/login">Login</Link>
+          <div className="flex flex-row gap-4">
+            <Link href="/signup" className="hover:text-blue-400">
+              Signup
+            </Link>
+            <Link href="/login" className="hover:text-blue-400">
+              Login
+            </Link>
+          </div>
         )}
       </div>
     </nav>
