@@ -10,7 +10,12 @@ function PhotoDetail() {
   const { photo, error } = usePhotoItem(id);
 
   if (error) return <p className="p-6 text-red-500">{error}</p>;
-  if (!photo) return <Spinner />;
+  if (!photo)
+    return (
+      <div className="h-[500px]">
+        <Spinner />
+      </div>
+    );
 
   return (
     <>
