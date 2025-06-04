@@ -1,27 +1,28 @@
 "use client";
 
+import Modal from "@/components/Modal";
 import PhotoItem from "@/components/PhotoItem";
 import Spinner from "@/components/Spinner";
 import usePhotoItem from "@/hooks/usePhotoItem";
 import { useParams } from "next/navigation";
 
-function PhotoDetail() {
+const ModalPhotoItem = () => {
   const { id } = useParams();
-  const { photo, error } = usePhotoItem(id);
+  const { photo, error } = usePhotoItem(String(id));
 
   if (error) return <p className="p-6 text-red-500">{error}</p>;
   if (!photo)
     return (
-      <div className="h-[500px]">
+      <Modal>
         <Spinner />
-      </div>
+      </Modal>
     );
 
   return (
-    <>
+    <Modal>
       <PhotoItem photo={photo} />
-    </>
+    </Modal>
   );
-}
+};
 
-export default PhotoDetail;
+export default ModalPhotoItem;
