@@ -31,7 +31,7 @@ function ImgSwiper() {
         loop={true}
         grabCursor={true}
         navigation={true}
-        className="w-full"
+        className="w-full h-[500px]"
       >
         {favoriteImgs.map((photo) => (
           <SwiperSlide key={photo.id}>
