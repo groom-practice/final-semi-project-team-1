@@ -1,10 +1,31 @@
-import {
-  getCommentsByPostId,
-  getPostById,
-  getUserById,
-} from "@/app/api/posts/route";
-import { Comment, Post, User } from "@/type/posts";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { Comment, Post, User } from '@/type/posts';
+
+const getPostById = async (id: number): Promise<Post> => {
+  const res = await fetch(`/api/posts/${id}`);
+  if (!res.ok)
+    throw new Error(`getPostById 오류: ${res.status} ${res.statusText}`);
+
+  return res.json();
+};
+
+const getUserById = async (userId: number): Promise<User> => {
+  const res = await fetch(`/api/users/${userId}`);
+  if (!res.ok)
+    throw new Error(`getUserById 오류: ${res.status} ${res.statusText}`);
+
+  return res.json();
+};
+
+const getCommentsByPostId = async (id: number): Promise<Comment[]> => {
+  const res = await fetch(`/api/posts/${id}/comments`);
+  if (!res.ok)
+    throw new Error(
+      `getCommentsByPostId 오류: ${res.status} ${res.statusText}`
+    );
+
+  return res.json();
+};
 
 function usePostItem(id: string | string[] | undefined) {
   const [post, setPost] = useState<Post | null>(null);
