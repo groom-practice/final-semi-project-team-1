@@ -10,7 +10,12 @@ const ModalPostItem = () => {
   const { id } = useParams();
   const { post, user, comments, loading } = usePostItem(String(id));
 
-  if (loading) return <Spinner />;
+  if (loading)
+    return (
+      <Modal>
+        <Spinner />
+      </Modal>
+    );
   if (!post || !user) return <p>데이터를 불러올 수 없음</p>;
 
   return (
