@@ -9,15 +9,17 @@ export default function PostPage() {
   const [useInfinite, setUseInfinite] = useState(false);
 
   return (
-    <div className='flex flex-col mx-4 h-screen'>
-      <div className='flex w-full h-9 justify-between items-center mb-3'>
-        <p className='text-2xl font-bold'>Posts List</p>
-        <Toggle
-          checked={useInfinite}
-          onChange={() => setUseInfinite((prev) => !prev)}
-        />
+    <div className='fixed inset-0 flex flex-col p-6 bg-white mt-12'>
+      <div className='flex justify-between items-center mb-4 shrink-0'>
+        <h2 className='text-2xl font-bold'>Posts List</h2>
+        <div className='flex items-center'>
+          <Toggle
+            checked={useInfinite}
+            onChange={() => setUseInfinite((prev) => !prev)}
+          />
+        </div>
       </div>
-      <div className='h-full space-y-4 bg-gray-100 p-4 rounded shadow overflow-y-auto'>
+      <div className='flex-1 h-5/6 space-y-4 overflow-y-auto bg-gray-100 p-4 rounded shadow'>
         {useInfinite ? <InfinitePostList /> : <ButtonPostList />}
       </div>
     </div>
