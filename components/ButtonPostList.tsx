@@ -2,9 +2,16 @@
 
 import PostItem from '@/components/PostItem';
 import { Post } from '@/type/posts';
-import { getPosts } from '@/app/api/posts/route';
 import { useState, useEffect } from 'react';
 import Spinner from './Spinner';
+
+const getPosts = async (pageParam: number = 1): Promise<Post[]> => {
+  const res = await fetch(`/api/posts?_page=${pageParam}&_limit=10`);
+  if (!res.ok)
+    throw new Error(`getPosts 오류: ${res.status} ${res.statusText}`);
+
+  return res.json();
+};
 
 export default function ButtonPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -16,7 +23,7 @@ export default function ButtonPostList() {
   const fetchData = async (pageParam: number) => {
     try {
       setLoading(true);
-      const newPosts = await getPosts({ pageParam });
+      const newPosts = await getPosts(pageParam);
 
       const deletedIds = JSON.parse(
         localStorage.getItem('deletedPosts') || '[]'

@@ -1,10 +1,29 @@
 'use client';
 
-import { getPostById, updatePost } from '@/app/api/posts/route';
 import Spinner from '@/components/Spinner';
 import { Post } from '@/type/posts';
 import { useParams, useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
+
+const getPostById = async (id: number): Promise<Post> => {
+  const res = await fetch(`/api/posts/${id}`);
+  if (!res.ok)
+    throw new Error(`getPostById 오류: ${res.status} ${res.statusText}`);
+
+  return res.json();
+};
+
+const updatePost = async (updatedPost: Post): Promise<Post> => {
+  const res = await fetch(`/api/posts/${updatedPost.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedPost),
+  });
+  if (!res.ok)
+    throw new Error(`updatePost 오류: ${res.status} ${res.statusText}`);
+
+  return res.json();
+};
 
 export default function EditPostPage() {
   const { id } = useParams();
