@@ -12,6 +12,9 @@ export default function PostDetail() {
   const { post, user, comments, loading } = usePostItem(id);
 
   const handleDelete = () => {
+    const isConfirmed = window.confirm('정말 삭제하시겠습니까?');
+    if (!isConfirmed) return;
+
     const deleted = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
     const updated = [...deleted, Number(id)];
     localStorage.setItem('deletedPosts', JSON.stringify(updated));
